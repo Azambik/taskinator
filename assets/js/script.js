@@ -100,6 +100,7 @@ var completeEditTask = function(taskName, taskType, taskId) {
     listItemEl.className = "task-item";
     //add task id as a cutom atribute
     listItemEl.setAttribute("data-task-id", taskIdCounter);
+    listItemEl.setAttribute("draggable", "true");
     //create div to hole task info and add to list item
     var taskInfoEl = document.createElement("div");
     //give it a clas name
@@ -148,7 +149,50 @@ var completeEditTask = function(taskName, taskType, taskId) {
     }
     return actionContainerEl;
   };
+  var dragTaskHandler = function(event){
+    var taskId = event.target.getAttribute("data-task-id");
+    event.dataTransfer.setData("text/plain", taskId);
+    var getId =event.dataTransfer.getData("text/plain");
+    console.log("getId:", getId, typeof getId);
+  };
+  var dropZoneDragHandler = function(event) {
+    var taskListEl = event.target.closest(".task-list");
+      if (taskListEl) {
+        event.preventDefault();
+        taskListEl.setAttribute("style", "background: rgba(68, 233, 255, 0.7); border-style: dashed;");
+        
+  }
+  };
+  var dropTaskHandler = function(event){
+    var id = event.dataTransfer.getData("text/plain");
+    var draggableElement = document.querySelector("[data-task-id='" + id + "']");
+    var dropZoneEl = event.target.closest(".task-list");
+    var statusType = dropZoneEl.id;
+    // set status of task based on dropZone id
+    var statusSelectEl = draggableElement.querySelector("select[name='status-change']");
+    if (statusType === "task-to-do") {
+      statusSelectEl.selectedIndex =0;
+    }
+    else if (statusType === "task-in-progress") {
+      statusSelectEl.selectedIndex = 1;
+    }
+    else if (statusType === "task-completed") {
+      statusSelectEl.selectedIndex = 2;
+    }
+    dropZoneEl.removeAttribute("style");
+    dropZoneEl.appendChild(draggableElement);
+  };
+  var dragLeaveHandler = function(event) {
+    var taskListEl = event.target.closest(".task-list");
+    if (taskListEl) {
+      taskListEl.removeAttribute("style");
+}
+  };
   //event listeners
   formEl.addEventListener("submit", taskFormHandler);
   pageContentEl.addEventListener("change", taskStatusChangeHandler);
   pageContentEl.addEventListener("click", taskButtonHandler);
+  pageContentEl.addEventListener("dragstart", dragTaskHandler);
+  pageContentEl.addEventListener("dragover", dropZoneDragHandler);
+  pageContentEl.addEventListener("drop", dropTaskHandler);
+  pageContentEl.addEventListener("dragleave",dragLeaveHandler);
