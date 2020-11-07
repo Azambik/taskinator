@@ -15,22 +15,39 @@
         <p>
             Click the button below to add a new task!
         </p>
-        <button class="btn" id="save-task">
-            Add Task
-            
-        </button>
+        <form id="task-form">
+            <div class="form-group">
+                <input type="text" name="task-name" placeholder="Enter Task Name" />
+                <select name="task-type" class="select-dropdown">
+                    <option value=""disabled selected>Pick a task type</option>
+                    <option value="Home">Home</option>
+                    <option value="Work">Work</option>
+                    <option value="School">School</option>
+                </select>
+                <button class="btn" id="save-task" type="submit"draggable="true">Add Task</button>
+            </div>
+        </form>
     </header>
-    <main class="page-content">
+    <main class="page-content" id="page-content">
+         <!--task to do -->
         <section class="task-list-rapper">
             <h2 class="list-title">
                 Tasks To Do
             </h2>
             <ul class="task-list" id="tasks-to-do">
-                <li class="task-item">
-                    A task is going to be added soon!
-                </li>
+               
             </ul>
 
+        </section>
+        <!--task in progress -->
+        <section clas="task-list-wrapper">
+            <h2 class="list-title">Task In Progress</h2>
+            <ul class="task-list" id="tasks-in-progress"></ul>
+        </section>
+        <!--task completed -->
+        <section clas="task-list-wrapper">
+            <h2 class="list-title">Task Completed</h2>
+            <ul class="task-list" id="tasks-completed"></ul>
         </section>
         <footer>
             &copy;2020 by Taskinator

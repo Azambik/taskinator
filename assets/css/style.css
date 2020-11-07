@@ -57,6 +57,8 @@ form input {
 form .form-group {
   margin: 10px 6px 10px 0;
   flex: 1;
+  display: flex;
+ 
 }
 
 footer {
@@ -101,6 +103,7 @@ footer {
   background: rgb(196, 196, 196);
   border-radius: 12px;
   border: 2px solid var(--grey);
+  /*width: 480px; work for my computer screen*/
 }
 
 .task-item {
