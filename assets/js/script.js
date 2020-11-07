@@ -5,6 +5,7 @@ var tasksInProgressEl = document.querySelector("#tasks-in-progress");
 var tasksCompletedEl = document.querySelector("#tasks-completed");
 var taskIdCounter =0;
 var pageContentEl = document.querySelector("#page-content");
+var tasks = [];
 
 //functions
 var taskButtonHandler = function(event) {
@@ -55,6 +56,13 @@ var taskStatusChangeHandler = function(event) {
   else if (statusValue === "completed") {
     tasksCompletedEl.appendChild(taskSelected);
   }
+  // updating task's in tasks array
+  for (var i = 0; i < tasks.length; i++) {
+    if (tasks[i].id === parseInt(taskId)) {
+      tasks[i].status = statusValue;
+    }
+  }
+  console.log(asks);
 };
 var taskFormHandler = function(event) {
 
@@ -78,7 +86,8 @@ var taskFormHandler = function(event) {
     //package up data as an object
     var taskDataObj = {
       name: taskNameInput,
-      type: taskTypeInput
+      type: taskTypeInput,
+      status: "to do"
     };
     //send it as a argument to CreateTaskEl
     createTaskEl(taskDataObj)
@@ -89,6 +98,14 @@ var completeEditTask = function(taskName, taskType, taskId) {
   //set new values
   taskSelected.querySelector("h3.task-name").textContent = taskName;
   taskSelected.querySelector("span.task-type").textContent = taskType;
+  //loop through tasks array and task obkect with new content
+  for (var i = 0; i < tasks.length; i++){
+    if (tasks[i].id === parseInt(taskId)) {
+      task[i].name = taskName;
+      task[i].type = taskType;
+    }
+
+  };
 
   alert("Task Updated!");
   formEl.removeAttribute("data-task-id");
@@ -111,8 +128,12 @@ var completeEditTask = function(taskName, taskType, taskId) {
     var taskActionEl = createTaskActions(taskIdCounter);
     listItemEl.appendChild(taskActionEl);
     tasksToDoEl.appendChild(listItemEl);
+    taskDataObj.id = taskIdCounter;
+    tasks.push(taskDataObj);
     //incement task coter for next id
     taskIdCounter++;
+    console.log(taskDataObj);
+    console.log(taskDataObj.status);
   };
   var createTaskActions = function(taskId){
     var actionContainerEl = document.createElement("div");
